@@ -138,7 +138,13 @@ $( function() {
 
 		// project photo (post_thumbnail)
 		// project video (postmeta project-video)
+
 		// project status (term project-status)
+		try {
+			row.project_status = $( value ).attr( 'class' );
+		} catch ( error ) {
+			console.error( 'error processing project year', error, value );
+		}
 
 		// year submitted (post_date)
 		// @todo remove preface text
