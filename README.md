@@ -10,13 +10,10 @@ This aims to scrape [this page](https://s3.amazonaws.com/currentbucket-762391/lo
 
 ## Running this
 
-1. Clone this repo as a site in Valet, at `current-ltw-scraper` with a domain of `.test`
-	- visit https://current-ltw-scraper.test to make sure that worked
+1. Clone this repo
 2. Run `make`
 
 ### Assumptions
 
-- you have [Laravel valet](https://laravel.com/docs/7.x/valet) installed
-	- The install instructions assume this, but any similar setup will work if it lets you serve the contents of this repo at the URL mentioned in the instructions
 - you're on a Mac with all the Homebrew dependencies, including `make` and `open`
 	- Linux users may be able to `alias open=xdg-open`

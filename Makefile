@@ -18,10 +18,8 @@ downloads/child_2019.html:
 # Using the commands in sed.txt, insert our JS into the scraped page
 output/child_2019-injected.html: downloads/child_2019.html
 	mkdir -p output/
-	sed -f sed.txt -i downloads/child_2019.html > output/child_2019-injected.html
+	sed -f sed.txt downloads/child_2019.html > output/child_2019-injected.html
 
 # scrape the downloaded files
-scrape: downloads/child_2019.html
-	mkdir -p output/
-	cp downloads/child_2019.html output/
-	touch output/importable.csv
+scrape: output/child_2019-injected.html
+	open ./output/child_2019-injected.html
