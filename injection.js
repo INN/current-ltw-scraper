@@ -35,6 +35,7 @@ $( function() {
 
 		// items here are ordered by the order in https://docs.google.com/spreadsheets/d/1eHTJV1OKOWfOrZAaPosovc96dfhn1A_-SdRyMWge8Ts/edit#gid=0
 
+		// Not included in scraped file
 		// project submitter email (postmeta)
 		// project submitter (postmeta)
 
@@ -45,6 +46,7 @@ $( function() {
 			console.error( 'error processing project org', error, value );
 		}
 
+		// not included in scraped file
 		// project city (postmeta project-city)
 		// project state (postmeta project-state)
 
@@ -59,10 +61,11 @@ $( function() {
 
 		// project contact name (postmeta project-contact-name)
 		// project contact email (postmeta project-contact-email)
+		// Splitting this is not possible without a ton of work
+		// the format on the page is inconsistent: https://github.com/INN/current-ltw-scraper/issues/4
 		try {
-			var raw_contact = $( value ).find( 'p.contact' ).text();
-			// @todo remove preface text, split this into email and name
-			row.project_contact_email = raw_contact;
+			var raw_contact = $( value ).find( 'p.contact' ).text().replace( 'Contact:' , '' ).trim();
+			row.project_contact_email = '';
 			row.project_contact_name = raw_contact;
 		} catch ( error ) {
 			console.error( 'error processing project contact', error, value );
