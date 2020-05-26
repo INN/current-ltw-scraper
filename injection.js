@@ -14,6 +14,22 @@ $( function() {
 		// click the link
 	}
 
+	/**
+	 * given an index, check the previous index to see if that index is a string and not empty. if it's an empty string, call with that index.
+	 *
+	 * @param Number  index within array
+	 * @param Array   the array so indexed
+	 * @return Number the index that matches the condition of not being empty and being prior to the index argument
+	 */
+	function item_previous( index, array ) {
+		var new_index = index - 1;
+		if ( ! array[new_index] || array[new_index] == undefined || array[new_index] == "" || array[new_index].length == 0 ) {
+			return item_previous( new_index, array );
+		} else {
+			return new_index;
+		}
+	}
+
 	$.each( $( '#projects > .list li' ), function( index, value ) {
 		var row = {};
 
@@ -36,7 +52,7 @@ $( function() {
 		try {
 			var raw_org_type = $( value ).find( 'p.orgtype' ).text();
 			// @todo strip preface text from this
-			row.project_org_type = raw_org_type.replace( 'Type of organization: ', '' );
+			row.project_org_type = raw_org_type.replace( 'Type of organization:', '' ).trim();
 		} catch ( error ) {
 			console.error( 'error processing project org type', error, value );
 		}
@@ -90,7 +106,35 @@ $( function() {
 		// project supplementary link 5 (postmeta @todo)
 
 		// project tags (term project-category)
-		// @todo figure out how we want to present these inside the CSV
+		try {
+			raw_project_category = $( value ).find( 'p.contenttype' ).text();
+			// remove preface
+			raw_project_category = raw_project_category.replace( 'Type of content:', '' ).trim();
+			// the categories are separated by spaces, and each starts with an uppercase letter
+			array_project_categories = raw_project_category.split( ' ' );
+			// now all words are separate; let's rejoin the words within the organization types
+			array_project_categories.forEach( function( item, index, array ) {
+
+
+				if ( item.charAt(0) === item.charAt(0).toUpperCase() ) {
+					// do nothing
+				} else {
+					// add this item to the end of the previous item
+					var new_index = item_previous( index, array );
+					array[new_index].concat( ' ', item );
+
+					// and then empty this item
+					array[index] = '';
+				}
+			});
+
+
+			// now join them
+			row.project_category = array_project_categories.filter( item => item.length > 0 ).join( ',' );
+		} catch ( error ) {
+			console.error( 'error processing project primary link', error, value );
+		}
+
 
 		// project photo (post_thumbnail)
 		// project video (postmeta project-video)
