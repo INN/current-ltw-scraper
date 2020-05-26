@@ -31,12 +31,12 @@ $( function() {
 
 		// project city (postmeta project-city)
 		// project state (postmeta project-state)
-		//
+
 		// project org type (term project-org-type)
 		try {
 			var raw_org_type = $( value ).find( 'p.orgtype' ).text();
 			// @todo strip preface text from this
-			row.project_org = raw_org_type;
+			row.project_org_type = raw_org_type.replace( 'Type of organization: ', '' );
 		} catch ( error ) {
 			console.error( 'error processing project org type', error, value );
 		}
