@@ -152,7 +152,7 @@ $( function() {
 		// year submitted (post_date)
 		// @todo remove preface text
 		try {
-			row.post_date = $( value ).find( 'p.year' ).text();
+			row.post_date = $( value ).find( 'p.year' ).text().replace( 'Year submitted:', '' ).trim().concat('-', '05-26');
 		} catch ( error ) {
 			console.error( 'error processing project year', error, value );
 		}
