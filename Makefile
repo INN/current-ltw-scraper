@@ -16,9 +16,9 @@ downloads/child_2019.html:
 	wget -O downloads/child_2019.html https://s3.amazonaws.com/currentbucket-762391/local-that-works/child_2019.html
 
 # Using the commands in sed.txt, insert our JS into the scraped page
-output/child_2019-injected.html: downloads/child_2019.html
+injected output/child_2019-injected.html: downloads/child_2019.html
 	mkdir -p output/
-	sed -f sed.txt downloads/child_2019.html > output/child_2019-injected.html
+	sed -f sed.sed downloads/child_2019.html > output/child_2019-injected.html
 
 # scrape the downloaded files
 scrape: output/child_2019-injected.html
