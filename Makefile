@@ -11,7 +11,7 @@ clean:
 	rm -r output/
 
 # get the scrapeable file
-downloads/child_2019.html:
+download downloads/child_2019.html:
 	mkdir -p downloads/
 	wget -O downloads/child_2019.html https://s3.amazonaws.com/currentbucket-762391/local-that-works/child_2019.html
 
