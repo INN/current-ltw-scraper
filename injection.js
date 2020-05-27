@@ -65,8 +65,49 @@ $( function() {
 		// the format on the page is inconsistent: https://github.com/INN/current-ltw-scraper/issues/4
 		try {
 			var raw_contact = $( value ).find( 'p.contact' ).text().replace( 'Contact:' , '' ).trim();
-			row.project_contact_email = '';
-			row.project_contact_name = raw_contact;
+
+			array_contact = raw_contact.split( ',' );
+			if ( array_contact.length == 1 ) {
+				// only one item in the array?
+				if ( raw_contact.trim() != "" ) {
+					// no cases exercised this contingency when logged
+					// console.log( raw_contact, array_contact );
+					row.project_contact_name = raw_contact.replace( 'XCOMMA', ',' ).trim(); // undo things done in sed.sed
+				}
+			} else if ( array_contact.length == 2 ) {
+				row.project_contact_name = array_contact[0].replace( 'XCOMMA', ',' ).trim();
+
+				if( array_contact[1].includes( '@' ) ) {
+					// it's an email
+					row.project_contact_email = array_contact[1].replace( 'XCOMMA', ',' ).trim();
+				} else {
+					// it's probably a phone number
+					row.project_contact_phone = array_contact[1].replace( 'XCOMMA', ',' ).trim();
+				}
+			} else if ( array_contact.length == 3 ) {
+				row.project_contact_name = array_contact[0].replace( 'XCOMMA', ',' ).trim();
+
+				if( array_contact[1].includes( '@' ) ) {
+					// it's an email
+					row.project_contact_email = array_contact[1].replace( 'XCOMMA', ',' ).trim();
+				} else {
+					console.error( "It's not an email address?", array_contact[1] );
+				}
+
+				if( array_contact[2].includes( '@' ) ) {
+					// it's an email
+					console.error( "Unexpected @ in item 2", array_contact );
+				} else {
+					row.project_contact_phone = array_contact[2].replace( 'XCOMMA', ',' ).trim();
+				}
+
+				row.project_contact_email = '';
+			} else {
+				console.log( raw_contact, array_contact );
+
+				row.project_contact_email = '';
+				row.project_contact_name = raw_contact.replace( 'XCOMMA', ',' ).trim(); // undo things done in sed.sed
+			}
 		} catch ( error ) {
 			console.error( 'error processing project contact', error, value );
 		}
