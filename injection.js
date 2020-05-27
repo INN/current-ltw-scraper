@@ -87,7 +87,7 @@ $( function() {
 
 		// Tell your story (post_content)
 		try {
-			row.post_content = $( value ).find( 'p.description' ).text();
+			row.post_content = $( value ).find( 'p.description' ).html();
 		} catch ( error ) {
 			console.error( 'error processing project long description for post_content', error, value );
 		}
