@@ -64,17 +64,45 @@ $( function() {
 		// Splitting this is not possible without a ton of work
 		// the format on the page is inconsistent: https://github.com/INN/current-ltw-scraper/issues/4
 		try {
-			var raw_contact = $( value ).find( 'p.contact' ).text().replace( 'Contact:' , '' ).trim();
+			var pre_raw_contact = $( value ).find( 'p.contact' ).text().replace( 'Contact:' , '' ).trim();
 
+			// clean up data
+			raw_contact = pre_raw_contact
+				.replace(', Senior', 'XCOMMA Senior')
+				.replace(', executive', 'XCOMMA executive')
+				.replace(', Greater', 'XCOMMA Greater')
+				.replace(', Almanac', 'XCOMMA Almanac')
+				.replace(', Twin', 'XCOMMA Twin')
+				.replace('org, jill', 'orgXCOMMA jill')
+				.replace(', x', 'XCOMMA x')
+				.replace(', ext ', 'XCOMMA ext ')
+				.replace(', ext.', 'XCOMMA ext.')
+				.replace('Contact:,', 'Contact:')
+				.replace(', Producer', 'XCOMMA Producer')
+				.replace(', THE', 'XCOMMA THE')
+				.replace(', Membership', 'XCOMMA Membership')
+				.replace(', Director', 'XCOMMA Director')
+				.replace(', GM', 'XCOMMA GM')
+				.replace(', WESA', 'XCOMMA WESA')
+				.replace(', WYSO', 'XCOMMA WYSO')
+				.replace(', Events', 'XCOMMA Events')
+				.replace(', WETA', 'XCOMMA WETA')
+				.replace(', AETN', 'XCOMMA AETN')
+				;
+
+			// separate things out
 			array_contact = raw_contact.split( ',' );
+
+			// now check
 			if ( array_contact.length == 1 ) {
+				// console.log( raw_contact, array_contact );
 				// only one item in the array?
 				if ( raw_contact.trim() != "" ) {
 					// no cases exercised this contingency when logged
-					// console.log( raw_contact, array_contact );
 					row.project_contact_name = raw_contact.replace( 'XCOMMA', ',' ).trim(); // undo things done in sed.sed
 				}
 			} else if ( array_contact.length == 2 ) {
+				// console.log( raw_contact, array_contact );
 				row.project_contact_name = array_contact[0].replace( 'XCOMMA', ',' ).trim();
 
 				if( array_contact[1].includes( '@' ) ) {
@@ -100,12 +128,9 @@ $( function() {
 				} else {
 					row.project_contact_phone = array_contact[2].replace( 'XCOMMA', ',' ).trim();
 				}
-
-				row.project_contact_email = '';
 			} else {
-				console.log( raw_contact, array_contact );
+				console.error( "unexpected array length", raw_contact, array_contact );
 
-				row.project_contact_email = '';
 				row.project_contact_name = raw_contact.replace( 'XCOMMA', ',' ).trim(); // undo things done in sed.sed
 			}
 		} catch ( error ) {
