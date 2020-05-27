@@ -139,7 +139,16 @@ $( function() {
 		}
 
 
-		// project photo (post_thumbnail)
+		// project image (post_thumbnail)
+		try {
+			row.post_thumbnail_image = $( value ).find( 'img' ).attr( 'src' );
+			row.post_thumbnail_caption = $( value ).find( 'p.caption-text' ).text();
+			row.post_thumbnail_credit = $( value ).find( 'p.photo-credit' ).text();
+		} catch ( error ) {
+			console.error( 'error processing project image', error, value );
+		}
+
+
 		// project video (postmeta project-video)
 
 		// project status (term project-status)
