@@ -150,6 +150,11 @@ $( function() {
 
 
 		// project video (postmeta project-video)
+		try {
+			row.post_embed = $( value ).find( '.embed-container' ).html();
+		} catch ( error ) {
+			console.error( 'error processing project embed', error, value );
+		}
 
 		// project status (term project-status)
 		try {
