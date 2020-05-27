@@ -99,25 +99,25 @@ $( function() {
 				// only one item in the array?
 				if ( raw_contact.trim() != "" ) {
 					// no cases exercised this contingency when logged
-					row.project_contact_name = raw_contact.replace( 'XCOMMA', ',' ).trim(); // undo things done in sed.sed
+					row.project_contact_name = raw_contact.replace( /XCOMMA/g, ',' ).trim(); // undo things done in sed.sed
 				}
 			} else if ( array_contact.length == 2 ) {
 				// console.log( raw_contact, array_contact );
-				row.project_contact_name = array_contact[0].replace( 'XCOMMA', ',' ).trim();
+				row.project_contact_name = array_contact[0].replace( /XCOMMA/g, ',' ).trim();
 
 				if( array_contact[1].includes( '@' ) ) {
 					// it's an email
-					row.project_contact_email = array_contact[1].replace( 'XCOMMA', ',' ).trim();
+					row.project_contact_email = array_contact[1].replace( /XCOMMA/g, ',' ).trim();
 				} else {
 					// it's probably a phone number
-					row.project_contact_phone = array_contact[1].replace( 'XCOMMA', ',' ).trim();
+					row.project_contact_phone = array_contact[1].replace( /XCOMMA/g, ',' ).trim();
 				}
 			} else if ( array_contact.length == 3 ) {
-				row.project_contact_name = array_contact[0].replace( 'XCOMMA', ',' ).trim();
+				row.project_contact_name = array_contact[0].replace( /XCOMMA/g, ',' ).trim();
 
 				if( array_contact[1].includes( '@' ) ) {
 					// it's an email
-					row.project_contact_email = array_contact[1].replace( 'XCOMMA', ',' ).trim();
+					row.project_contact_email = array_contact[1].replace( /XCOMMA/g, ',' ).trim();
 				} else {
 					console.error( "It's not an email address?", array_contact[1] );
 				}
@@ -126,12 +126,12 @@ $( function() {
 					// it's an email
 					console.error( "Unexpected @ in item 2", array_contact );
 				} else {
-					row.project_contact_phone = array_contact[2].replace( 'XCOMMA', ',' ).trim();
+					row.project_contact_phone = array_contact[2].replace( /XCOMMA/g, ',' ).trim();
 				}
 			} else {
 				console.error( "unexpected array length", raw_contact, array_contact );
 
-				row.project_contact_name = raw_contact.replace( 'XCOMMA', ',' ).trim(); // undo things done in sed.sed
+				row.project_contact_name = raw_contact.replace( /XCOMMA/g, ',' ).trim(); // undo things done in sed.sed
 			}
 		} catch ( error ) {
 			console.error( 'error processing project contact', error, value );
